@@ -8,52 +8,171 @@
     html {
         width: 100%;
     }
-    form {
-        
-        width: 100%;
-        
+    .basic-grey {
+        margin-left:auto;
+        margin-right:auto;
+        max-width: 500px;
+        background: #F7F7F7;
+        padding: 25px 15px 25px 10px;
+        font: 12px Georgia, "Times New Roman", Times, serif;
+        color: #888;
+        text-shadow: 1px 1px 1px #FFF;
+        border:1px solid #E4E4E4;
     }
-    label {
-        text-align: center;
-        width: 100%;
-        display:block;
-    }
-    input {
+    .basic-grey h2 {
+        font-size: 25px;
+        padding: 0px 0px 10px 40px;
         display: block;
-        margin: 0 auto;
-        width: 15em;
-        margin-bottom: 2em;
+        border-bottom:1px solid #E4E4E4;
+        margin: -10px -15px 30px -10px;;
+        color: #888;
+    }
+    .basic-grey h1>span {
+        display: block;
+        font-size: 11px;
+    }
+    .basic-grey label {
+        display: block;
+        margin: 0px;
+    }
+    .basic-grey label>span {
+        float: left;
+        width: 20%;
+        text-align: right;
+        padding-right: 10px;
+        margin-top: 10px;
+        color: #888;
+    }
+    .basic-grey input[type="text"], .basic-grey input[type="email"], .basic-grey textarea, .basic-grey select {
+        border: 1px solid #DADADA;
+        color: #888;
+        height: 30px;
+        margin-bottom: 16px;
+        margin-right: 6px;
+        margin-top: 2px;
+        outline: 0 none;
+        padding: 3px 3px 3px 5px;
+        width: 70%;
+        font-size: 12px;
+        line-height:15px;
+        box-shadow: inset 0px 1px 4px #ECECEC;
+        -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+        -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+    }
+    .basic-grey textarea{
+        padding: 5px 3px 3px 5px;
+    }
+    .basic-grey select {
+        background: #FFF url('down-arrow.png') no-repeat right;
+        background: #FFF url('down-arrow.png') no-repeat right);
+        appearance:none;
+        -webkit-appearance:none;
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: '';
+        width: 70%;
+        height: 35px;
+        line-height: 25px;
+    }
+    .basic-grey textarea{
+        height:100px;
+    }
+    .basic-grey .button {
+        background: #E27575;
+        border: none;
+        padding: 10px 25px 10px 25px;
+        color: #FFF;
+        box-shadow: 1px 1px 5px #B6B6B6;
+        border-radius: 3px;
+        text-shadow: 1px 1px 1px #9E3F3F;
+        cursor: pointer;
+    }
+    .basic-grey .button:hover {
+        background: #CF7A7A
     }
     </style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#zip').keyup(function(e) {
+        var zip = $(this).val();
+        if (zip.length === 5 && $.isNumeric(zip)) {
+          var requestURL = 'http://ZiptasticAPI.com/' + zip + '?callback=?';
+
+          $.getJSON(requestURL, null, function(data) {
+            console.log(data);
+            if (data.city) $('#city').val(data.city);
+            if (data.state) $('#state').val(data.state);
+          });
+        }
+      });
+    });
+    </script>
 </head>
 
+<body>
+  <div class="basic-grey">
+    <h2>Please submit your information!</h2>
 
+    <form method="post" onsubmit="return confirm('Thank you for your submition!')" >
+        <label for="firstName">
+          <span>First Name:</span>
+          <input name="first_name" id="firstName" value="" placeholder="Enter Your First Name..." type="text" pattern="^[a-zA-Z_-]+\b$" required/>
+        </label>
 
-<h2>Please submit your information!</h2>
+        <label for="lastName">
+          <span>Last Name:</span>
+          <input name="last_name" id="lastName" value="" placeholder="Enter Your Last Name..." type="text" pattern="^[a-zA-Z_-]+\b$" required/>
+        </label>
 
-<form method="post">
+        <label for="phone">
+          <span>Phone: </span>
+          <input name="phone" id="phone" value="" placeholder="xxx-xxx-xxxx" type="text" pattern="^\d{3}-\d{3}-\d{4}$" maxlength="12" required/>
+        </label>
 
-    <label for="firstName">First Name:</label><input name="first_name" id="firstName" value="" placeholder="Enter Your First Name..." type="text"/>
+        <label for="email">
+          <span>Email:</span>
+          <input name="email" id="email" value="" placeholder="example@email.com" type="text" pattern="^([\w]|\w-\w)+@[\w]+.[a-zA-Z]{3}$" required/>
+        </label>
 
-    <label for="lastName">Last Name:</label><input name="last_name" id="lastName" value="" placeholder="Enter Your Last Name..." type="text"/>
+        <label for="street1">
+          <span>Street 1:</span>
+          <input name="street_1" id="street1" value="" placeholder="Street 1..." type="text"/>
+        </label>
 
-    <label for="phone">Phone:</label><input name="phone" id="phone" value="" placeholder="Phone Number..." type="text"/>
+        <label for="street2">
+          <span>Street 2:</span>
+          <input name="street_2" id="street2" value="" placeholder="Street 2..." type="text"/>
+        </label>
 
-    <label for="email">Email:</label><input name="email" id="email" value="" placeholder="Email Address..." type="text"/>
+        <label for="zip">
+          <span>Zip:</span>
+          <input name="zip" id="zip" value="" placeholder="Zip..." type="text" pattern="^[\d]{5}\b" maxlength="5" required/>
+        </label>
 
-    <label for="street1">Street 1:</label><input name="street_1" id="street1" value="" placeholder="Street 1..." type="text"/>
+        <label for="city">
+          <span>City:</span>
+          <input name="city" id="city" value="" placeholder="City..." type="text" required/>
+        </label>
 
-    <label for="street2">Street 2:</label><input name="street_2" id="street2" value="" placeholder="Street 2..." type="text"/>
+        <label for="state">
+          <span>State:</span>
+          <input name="state" id="state" value="" placeholder="State..." type="text" required/>
+        </label>
 
-    <label for="city">City:</label><input name="city" id="city" value="" placeholder="City..." type="text"/>
+        <label for="date">
+          <span>Date:</span>
+          <input name="date" id="datepicker" type="text" placeholder="mm/dd/yyyy" pattern="^(0[1-9]|(11|12))\/(([012]+[1-9])|(30|31))\/\d{4}" required/>
+        </label>
 
-    <label for="state">State:</label><input name="state" id="state" value="" placeholder="State..." type="text"/>
-    <label for="zip">Zip:</label><input name="zip" id="zip" value="" placeholder="Zip..." type="text"/>
+        <label for="submit">
+          <span>&nbsp;</span>
+          <button type="submit" class="button">Submit</button>
+        </label>
 
-    <button type="submit">Submit</button>
-
-
-</form>
-
+    </form>
+  </div>
+</body>
 
 </html>
